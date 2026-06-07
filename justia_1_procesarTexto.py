@@ -8,12 +8,13 @@ import spacy
 # 1. SIMULACIÓN DEL CORPUS JURÍDICO 
 # Se quiso manejar un rango de 60 textos que tomen casos de las áreas
 # más comunues con base en lo encontrado en otras fuentes(familia,
-# laboral, penal, civil)
+# laboral, penal, civil). Estos casos se guiaron vía IA para
+# contextualización del desarrollador
 # ======================================================================
 
 
 datos = [
-    # --- ÁREA: FAMILIA (Casos de violencia, alimentos, custodia, etc.) ---
+    # --- ÁREA: FAMILIA (Violencia, alimentos, custodia) ---
     {"id": 1, "area": "Familia", "texto": "El demandado incumplió de manera reiterada con la obligación alimentaria fijada a favor de sus hijos menores de edad."},
     {"id": 2, "area": "Familia", "texto": "Se configura violencia económica cuando el cónyuge ejerce un control restrictivo y arbitrario sobre los recursos financieros del hogar."},
     {"id": 3, "area": "Familia", "texto": "La actora solicita la cesación de efectos civiles de matrimonio católico por la causal de relaciones sexuales extramatrimoniales."},
@@ -30,7 +31,7 @@ datos = [
     {"id": 14, "area": "Familia", "texto": "La demandante exige la declaración judicial de la unión marital de hecho tras la separación definitiva de la pareja de compañeros."},
     {"id": 15, "area": "Familia", "texto": "Se interpone recurso de apelación contra la providencia que tasó de forma desproporcionada los gastos de educación y recreación del menor."},
 
-    # --- ÁREA: LABORAL (Contratos, despidos, fueros, pensiones) ---
+    # --- ÁREA: LABORAL (Contratos, despidos, pensiones) ---
     {"id": 16, "area": "Laboral", "texto": "El trabajador demanda el reconocimiento del contrato de realidad tras haber prestado servicios bajo continuada subordinación laboral."},
     {"id": 17, "area": "Laboral", "texto": "Se produjo un despido sin justa causa encontrándose la trabajadora en estado de embarazo, vulnerando el fuero de maternidad."},
     {"id": 18, "area": "Laboral", "texto": "La empresa omitió el pago de las acreencias laborales correspondientes a cesantías, intereses a las cesantías y vacaciones devengadas."},
