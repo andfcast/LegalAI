@@ -18,7 +18,7 @@ def menu_principal():
     print("4. Salir del sistema")
     return input("\nSeleccione una opción (1-4): ").strip()
 
-def flujo_consulta_legal():
+def realizar_consulta_legal():
     """Canaliza las preguntas de los usuarios y ejecuta el predictor con trazabilidad."""
     print("\n--- 1. INGRESO DE CONSULTA LEGAL ---")
     print("Describa su situación de forma clara (mencione hechos, personas involucradas y su petición):")
@@ -90,10 +90,9 @@ def ejecutar():
     """Bucle de consola."""
     while True:
         mostrar_header()
-        opcion = menu_principal()
-        
+        opcion = menu_principal()        
         if opcion == "1":
-            flujo_consulta_legal()
+            realizar_consulta_legal()
         elif opcion == "2":
             flujo_carga_documentos()
         elif opcion == "3":
@@ -102,10 +101,8 @@ def ejecutar():
             print("\n Acceso cerrado de forma segura.\n")
             break
         else:
-            print("\n Opción inválida. Por favor, digite un número del 1 al 4.")
-            
-        input("\nPresione ENTER para regresar al menú principal...")
-        # Limpieza de pantalla básica para simular refresco de interfaz
+            print("\n Opción inválida. Por favor, digite un número del 1 al 4.")            
+        input("\nPresione ENTER para regresar al menú principal...")        
         os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
