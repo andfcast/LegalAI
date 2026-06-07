@@ -5,7 +5,7 @@ import pandas as pd
 import spacy
 
 # ======================================================================
-# 1. SIMULACIÓN DEL CORPUS JURÍDICO 
+# Simulación del Corpus Jurídico
 # Se quiso manejar un rango de 60 textos que tomen casos de las áreas
 # más comunues con base en lo encontrado en otras fuentes(familia,
 # laboral, penal, civil). Estos casos se guiaron vía IA para
@@ -87,7 +87,7 @@ datos = [
 
 
 # =====================================================================
-# 2. CONFIGURACIÓN DEL MODELO DE NLP (spaCy)
+# Configuración del modelo de NLP (spaCy)
 # =====================================================================
 try:
     nlp = spacy.load("es_core_news_sm")
@@ -96,7 +96,7 @@ except OSError:
 
 
 # =====================================================================
-# 3. FUNCIONES DE PREPROCESAMIENTO NLP.
+# Funciones dde procesamiento de texto con NLP.
 # Son las funciones que se utilzarán para limpiar las cadenas y poderla
 # manejar para poder crear la familiaridad con el lenguaje natural
 # =====================================================================
@@ -122,7 +122,7 @@ def limpiar_texto(texto: str) -> str:
 
 def preprocesar_corpus_juridico(texto_original: str) -> str:
     """
-    Tokeniza, filtra palabras vacías (stopwords tradicionales y procedimentales)
+    Limpia texto, filtra palabras vacías (stopwords tradicionales y procedimentales)
     y genera el lema morfológico oficial en español utilizando spaCy.
     """    
     texto_limpio = limpiar_texto(texto_original)
@@ -132,9 +132,9 @@ def preprocesar_corpus_juridico(texto_original: str) -> str:
     doc = nlp(texto_limpio)
     
     # Se crea un arreglo de stop words en español, apra así reducir el costo computacional.
-    # Aplican artículos, preposiciones, conjunciones, adejtivos demostrativos, interjecciones y algunos términos
+    # Aplican artículos, preposiciones, conjunciones, adejtivos demostrativos, conjunciones, interjecciones y algunos términos
     # comunes a todos los textos legales. La idea es que se pula lo más posible el diccionario para facilitar el 
-    # NPL y poderle brindar mayor especificidad en el proceso
+    # NLP y poderle brindar mayor especificidad en el proceso
     stopwords_ext = {
         "el", "la", "los", "las", "un", "una", "unos", "unas", "de", "del", "a", "al", "en", "y", "o", "u", "bajo",
         "para", "por", "con", "sin", "sobre", "tras", "durante", "mediante", "este", "esta", "estos", "estas",
@@ -143,25 +143,24 @@ def preprocesar_corpus_juridico(texto_original: str) -> str:
         "proceso", "demandado", "demandante", "solicita", "articulo", "codigo", "ley", "parte", "surgir", "instaura"
     }
     
-    tokens_procesados = []
+    palabras_procesados = []
     
     # Se recorre cada palabra del texto que se procesó y con la ayuda del módulo de spaCy
-    # que se agregó, se extrae el lema y se agrega cada una de esas palabras
+    # que se agregó, se extrae el lema y se agrega cada una de esas palabras al arreglo
+    # de palabras procesadas
     
-    for token in doc:
+    for palabra in doc:
         # Excluir palabras vacías por defecto de spaCy y nuestro diccionario personalizado
-        if not token.is_stop and token.text not in stopwords_ext:
-            # Obtener la raíz del diccionario (lema) de la palabra
-            # Ej: "incumplieron" -> "incumplir", "bienes" -> "bien", "punitiva" -> "punitivo"
-            lema = token.lemma_
-            tokens_procesados.append(lema)
+        if not palabra.is_stop and palabra.text not in stopwords_ext:            
+            lema = palabra.lemma_
+            palabras_procesados.append(lema)
             
     # Retornar el string normalizado unificado
-    return " ".join(tokens_procesados)
+    return " ".join(palabras_procesados)
 
 
 # =====================================================================
-# 4. EJECUCIÓN DEL PIPELINE Y APLICAR LA FUNCIÓN DE PREPROCESO
+# Ejecutar pipeline y aplciar fucnión de preproceso
 # =====================================================================
 
 print(f"Iniciando el pipeline de NLP para los {len(datos)} fragmentos de JustIA...\n")
@@ -174,20 +173,20 @@ df['texto_limpio_nlp'] = df['texto'].apply(preprocesar_corpus_juridico)
 
 
 # =====================================================================
-# 5. GENERAR LOS ARCHIVOS SOLICITADOS (.CSV y .JSON)
+# Generación de los archivos (.CSV y .JSON)
 # =====================================================================
 
 csv_filename = "justia_corpus.csv"
 df.to_csv(csv_filename, index=False, encoding='utf-8')
-print(f"✔ Se genera archivo CSV: '{csv_filename}'")
+print(f"Se genera archivo CSV: '{csv_filename}' con éxito")
 
 json_filename = "justia_corpus.json"
 df.to_json(json_filename, orient='records', force_ascii=False, indent=4)
-print(f"✔ Se genera archivo JSON: '{json_filename}'")
+print(f"Se genera archivo JSON: '{json_filename}' con éxito")
 
 
 # =====================================================================
-# 6. AUDITORÍA 
+# Auditorpia y pruebas 
 # =====================================================================
 print("\n" + "="*70)
 print("AUDITORÍA Y REVISIÓN DE TEXTOS")
@@ -198,5 +197,5 @@ arr_auditoria = [4, 10, 24, 30, 37, 44, 60]
 for cid in arr_auditoria:
     fila = df[df['id'] == cid].iloc[0]
     print(f"\n[ID {fila['id']} | Categoría: {fila['area']}]")
-    print(f"  📝 Texto Base: {fila['texto']}")
-    print(f"  ⚙ Procesdo:  {fila['texto_limpio_nlp']}")
+    print(f"Texto Base: {fila['texto']}")
+    print(f"Procesdo:  {fila['texto_limpio_nlp']}")
