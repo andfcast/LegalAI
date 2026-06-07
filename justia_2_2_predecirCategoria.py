@@ -24,7 +24,7 @@ def predecir_area_juridica(texto_usuario: str, ruta_diccionario: str = "dicciona
     # Se obtiene las palabras del texto de entrada
     tokens = limpiar_y_dividir_texto(texto_usuario)
     
-    # Conteo de coincidencias y registro de evidencias para trazabilidad
+    # Conteo de coincidencias y registro de evidencias o palabras encontradas para trazabilidad
     cont_categorias = {cat: 0 for cat in diccionario.keys()}
     coincidencias = {cat: [] for cat in diccionario.keys()}
     
@@ -40,10 +40,10 @@ def predecir_area_juridica(texto_usuario: str, ruta_diccionario: str = "dicciona
     
     # Se determinan los casos en que no hayan coincidencias de categorías o haya más de una que aplique y cumpla los criterios
     if max_num_coincidencias == 0:
-        cat_asignada = "Indeterminado / Requiere Asignación Manual"
+        cat_asignada = "No se puede determinar - Requiere Asignación Manual"
     else:        
         cat_opciones = [cat for cat, votos in cont_categorias.items() if votos == max_num_coincidencias]
-        cat_asignada = cat_opciones[0] if len(cat_opciones) == 1 else "Ambivalente (Revisión Docente Requerida)"
+        cat_asignada = cat_opciones[0] if len(cat_opciones) == 1 else "Ambivalente (Se requiere revisión por parte del docente)"
         
     # Detallar el reporte de la información encontrada
     reporte = {
@@ -60,7 +60,7 @@ def predecir_area_juridica(texto_usuario: str, ruta_diccionario: str = "dicciona
 # PRUEBAS APLICADAS
 # =====================================================================
 if __name__ == "__main__":
-    print("--- PRUEBAS DE CLASIFICACIÓN DEJUSTIA ---")
+    print("--- PRUEBAS DE CLASIFICACIÓN DE JUSTIA ---")
     
     caso1 = "Necesito fijar con urgencia la cuota de alimentos de mi hijo menor de edad porque el papá se niega a pagar."
     resultado1 = predecir_area_juridica(caso1)
